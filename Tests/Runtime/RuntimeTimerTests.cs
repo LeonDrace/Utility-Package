@@ -25,7 +25,7 @@ namespace LeonDrace.Utility.Tests
 				success = true;
 			}
 
-			var timer = TimerCreator.GetCountdownTimer(duration, StateValidator);
+			var timer = TimerHelper.GetCountdownTimer(duration, StateValidator);
 			timer.Start();
 			while (!success)
 			{
@@ -40,7 +40,7 @@ namespace LeonDrace.Utility.Tests
 		[UnityTest]
 		public IEnumerator StopWatch()
 		{
-			var timer = TimerCreator.GetStopwatchTimer();
+			var timer = TimerHelper.GetStopwatchTimer();
 			timer.Start();
 
 			while (timer.GetTime() < 1)
@@ -63,7 +63,7 @@ namespace LeonDrace.Utility.Tests
 				progress = value;
 			}
 
-			yield return TimerCreator.StartCountdownAsync(1, 10, StateValidator, default).AsCoroutine();
+			yield return TimerHelper.StartCountdownAsync(1, 10, StateValidator, default).AsCoroutine();
 
 			Assert.That(progress, Is.EqualTo(1));
 		}
@@ -79,7 +79,7 @@ namespace LeonDrace.Utility.Tests
 				progress = value;
 			}
 
-			yield return TimerCreator.StartUniCountdownAsync(1, 16, StateValidator, default).ToCoroutine();
+			yield return TimerHelper.StartUniCountdownAsync(1, 16, StateValidator, default).ToCoroutine();
 
 			Assert.That(progress, Is.EqualTo(1));
 		}

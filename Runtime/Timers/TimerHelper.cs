@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace LeonDrace.Utility.Timers
 {
-	public static class TimerCreator
+	public static class TimerHelper
 	{
 		/// <summary>
 		/// Create a stopwatch.
