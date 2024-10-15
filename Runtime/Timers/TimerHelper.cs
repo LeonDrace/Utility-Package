@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-namespace LeonDrace.Utility.Timers
+namespace LeonDrace.Utility.Helpers
 {
 	public static class TimerHelper
 	{
