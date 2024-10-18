@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-#if ENABLED_UNITY_MATHEMATICS
+#if ENABLE_UNITY_MATHEMATICS
 using Unity.Mathematics;
 #endif
 
@@ -20,7 +20,7 @@ namespace LeonDrace.Utility.Extensions
 		public static int AtLeast(this int value, int min) => Mathf.Max(value, min);
 		public static int AtMost(this int value, int max) => Mathf.Min(value, max);
 
-#if ENABLED_UNITY_MATHEMATICS
+#if ENABLE_UNITY_MATHEMATICS
         public static half AtLeast(this half value, half max) => MathfExtension.Max(value, max);
         public static half AtMost(this half value, half max) => MathfExtension.Min(value, max);
 #endif

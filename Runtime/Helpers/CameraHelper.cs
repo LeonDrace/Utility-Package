@@ -6,6 +6,12 @@ namespace LeonDrace.Utility.Helpers
 {
 	public static class CameraHelper
 	{
+		/// <summary>
+		/// Convert the world position to the screen point.
+		/// </summary>
+		/// <param name="camera"></param>
+		/// <param name="wordlPosition"></param>
+		/// <returns></returns>
 		public static Vector3 WorldToScreenPoint(Camera camera, Vector3 wordlPosition)
 		{
 			Matrix4x4 mat = camera.projectionMatrix * camera.worldToCameraMatrix;
@@ -26,6 +32,9 @@ namespace LeonDrace.Utility.Helpers
 #if ENABLE_BURST
 		[Unity.Burst.BurstCompile]
 #endif
+		/// <summary>
+		/// Convert the world positions to the screen points in a parallel job.
+		/// </summary>
 		public struct WorldToScreenPointJob : IJobParallelFor
 		{
 			public float m_screenWidth;

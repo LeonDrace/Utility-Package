@@ -1,4 +1,4 @@
-﻿#if ENABLED_UNITY_MATHEMATICS
+﻿#if ENABLE_UNITY_MATHEMATICS
 using Unity.Mathematics;
 #endif
 
@@ -8,7 +8,7 @@ namespace LeonDrace.Utility.Extensions
 	{
 		#region Min
 
-#if ENABLED_UNITY_MATHEMATICS
+#if ENABLE_UNITY_MATHEMATICS
         public static half Min(half a, half b) {
             return (a < b) ? a : b;
         }
@@ -59,7 +59,7 @@ namespace LeonDrace.Utility.Extensions
 
 		#region Max
 
-#if ENABLED_UNITY_MATHEMATICS
+#if ENABLE_UNITY_MATHEMATICS
         public static half Max(half a, half b) {
             return (a > b) ? a : b;
         }
