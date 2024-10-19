@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -13,7 +14,7 @@ namespace LeonDrace.Utility.Helpers
 		/// <param name="combinedName"></param>
 		/// <param name="applyLocalToWorldMatrix"></param>
 		/// <returns>New objects <see cref="MeshInfo"/></returns>
-		public static MeshInfo Combine(GameObject[] gameObjects, string combinedName)
+		public static MeshInfo Combine(ReadOnlySpan<GameObject> gameObjects, string combinedName)
 		{
 			CombineInstance[] combineInstances = CreateCombineInstances(gameObjects);
 
@@ -30,13 +31,13 @@ namespace LeonDrace.Utility.Helpers
 		/// <param name="combinedName"></param>
 		/// <param name="applyLocalToWorldMatrix"></param>
 		/// <returns></returns>
-		public static MeshInfo Combine(GameObject[] gameObjects, RendererInfo rendererInfo, string combinedName)
+		public static MeshInfo Combine(ReadOnlySpan<GameObject> gameObjects, RendererInfo rendererInfo, string combinedName)
 		{
 			CombineInstance[] combineInstances = CreateCombineInstances(gameObjects);
 			return Combine(combineInstances, rendererInfo, combinedName);
 		}
 
-		private static CombineInstance[] CreateCombineInstances(GameObject[] gameObjects)
+		private static CombineInstance[] CreateCombineInstances(ReadOnlySpan<GameObject> gameObjects)
 		{
 			CombineInstance[] combineInstances = new CombineInstance[gameObjects.Length];
 			for (int i = 0; i < gameObjects.Length; i++)

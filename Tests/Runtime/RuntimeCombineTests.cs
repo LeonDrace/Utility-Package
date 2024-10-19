@@ -6,22 +6,25 @@ namespace LeonDrace.Utility.Tests
 {
 	public class RuntimeCombineTests
 	{
-		[Test]
-		public void Combine_Primitives()
+		[TestCase(10)]
+		[TestCase(100)]
+		[TestCase(1000)]
+		public void Combine_Primitives(int count)
 		{
-			GameObject cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube); //24 vertices
-			GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube); //24 vertices
-			cube2.transform.position = Vector3.one;
-
-			GameObject[] gameObjects = new GameObject[] { cube1, cube2 };
+			GameObject[] gameObjects = new GameObject[count];
+			for (int i = 0; i < count; i++)
+			{
+				gameObjects[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				gameObjects[i].transform.position = Vector3.one * i;
+			}
 
 			string name = "NEW";
 			var combined = CombineHelper.Combine(gameObjects, name);
 
 			Assert.That(combined.meshFilter.gameObject.name, Is.EqualTo(name));
-			Assert.That(combined.meshFilter.mesh.vertices.Length, Is.EqualTo(48));
+			Assert.That(combined.meshFilter.mesh.vertices.Length, Is.EqualTo(count * 24));
 
-			var meshRenderer = cube1.GetComponent<MeshRenderer>();
+			var meshRenderer = gameObjects[0].GetComponent<MeshRenderer>();
 			Assert.That(meshRenderer.renderingLayerMask, Is.EqualTo(combined.meshRenderer.renderingLayerMask));
 			Assert.That(meshRenderer.shadowCastingMode, Is.EqualTo(combined.meshRenderer.shadowCastingMode));
 			Assert.That(meshRenderer.sharedMaterial, Is.EqualTo(combined.meshRenderer.sharedMaterial));
