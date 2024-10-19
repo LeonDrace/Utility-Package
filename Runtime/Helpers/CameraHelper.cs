@@ -59,5 +59,50 @@ namespace LeonDrace.Utility.Helpers
 				}
 			}
 		}
+
+		/// <summary>
+		/// Check if a point is in the viewport.
+		/// </summary>
+		/// <param name="screenPoint"></param>
+		/// <param name="minWidth"></param>
+		/// <param name="minHeight"></param>
+		/// <param name="maxWidth"></param>
+		/// <param name="maxHeight"></param>
+		/// <returns></returns>
+		public static bool IsScreenPointInViewport(Vector3 screenPoint, Vector4 viewport)
+		{
+			return IsScreenPointInViewport(screenPoint, viewport.x, viewport.y, viewport.z, viewport.w);
+		}
+
+		/// <summary>
+		/// Check if a point is in the viewport.
+		/// </summary>
+		/// <param name="screenPoint"></param>
+		/// <param name="minWidth"></param>
+		/// <param name="minHeight"></param>
+		/// <param name="maxWidth"></param>
+		/// <param name="maxHeight"></param>
+		/// <returns></returns>
+		public static bool IsScreenPointInViewport(Vector3 screenPoint, float minWidth, float maxWidth, float minHeight, float maxHeight)
+		{
+			return screenPoint.x > minWidth && screenPoint.x < maxWidth
+				   && screenPoint.y > minHeight && screenPoint.y < maxHeight;
+		}
+
+		/// <summary>
+		/// Get the screen dimensions with an additional pixel offset.
+		/// </summary>
+		/// <param name="canvasScale"></param>
+		/// <param name="pixelOffset"></param>
+		/// <returns><see cref="Vector4"/> containing: min. width, max. width, min. height, max. height.</returns>
+		public static Vector4 GetViewportWithOffset(float canvasScale, float pixelOffset)
+		{
+			pixelOffset *= canvasScale;
+			float minWidth = -pixelOffset;
+			float minHeight = -pixelOffset;
+			float maxWidth = Screen.width + pixelOffset;
+			float maxHeight = Screen.height + pixelOffset;
+			return new Vector4(minWidth, maxWidth, minHeight, maxHeight);
+		}
 	}
 }
