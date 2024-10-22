@@ -6,36 +6,67 @@ namespace LeonDrace.Utility.Tests
 {
 	public class RuntimeCombineTests
 	{
-		[TestCase(10)]
-		[TestCase(100)]
-		[TestCase(1000)]
-		public void Combine_Primitives(int count)
+		private const string CombinedName = "NEW";
+
+		[Test]
+		public void Combined_Object_Has_Correct_Name()
 		{
-			GameObject[] gameObjects = new GameObject[count];
-			for (int i = 0; i < count; i++)
-			{
-				gameObjects[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				gameObjects[i].transform.position = Vector3.one * i;
-			}
+			var combined = CombineCubes(CombinedName, 2, out GameObject[] gameObjects);
 
-			string name = "NEW";
-			var combined = CombineHelper.Combine(gameObjects, name);
+			Assert.That(combined.meshFilter.gameObject.name, Is.EqualTo(combined.meshFilter.name));
+		}
 
-			Assert.That(combined.meshFilter.gameObject.name, Is.EqualTo(name));
+		[Test]
+		public void Combined_Object_Has_Correct_Vertices()
+		{
+			int count = 2;
+			var combined = CombineCubes(CombinedName, count, out GameObject[] gameObjects);
+
 			Assert.That(combined.meshFilter.mesh.vertices.Length, Is.EqualTo(count * 24));
+		}
+
+		[Test]
+		public void Combined_Object_Has_Applied_Rendering_Values()
+		{
+			var combined = CombineCubes(CombinedName, 2, out GameObject[] gameObjects);
 
 			var meshRenderer = gameObjects[0].GetComponent<MeshRenderer>();
 			Assert.That(meshRenderer.renderingLayerMask, Is.EqualTo(combined.meshRenderer.renderingLayerMask));
 			Assert.That(meshRenderer.shadowCastingMode, Is.EqualTo(combined.meshRenderer.shadowCastingMode));
 			Assert.That(meshRenderer.sharedMaterial, Is.EqualTo(combined.meshRenderer.sharedMaterial));
-
-			Bounds preCalculatedBounds = GetBounds(gameObjects);
-			Assert.That(CompareVector3(preCalculatedBounds.center, combined.meshRenderer.bounds.center));
-			Assert.That(CompareVector3(preCalculatedBounds.size, combined.meshRenderer.bounds.size));
 		}
 
 		[Test]
-		public void Combine_Primitives_RendererInfo()
+		public void Combined_Object_Has_Expected_Bounds_Center_Of_Previous_Singles()
+		{
+			var combined = CombineCubes(CombinedName, 2, out GameObject[] gameObjects);
+
+			Bounds preCalculatedBounds = GetBounds(gameObjects);
+			Assert.That(CompareVector3(preCalculatedBounds.center, combined.meshRenderer.bounds.center));
+		}
+
+		[Test]
+		public void Combined_Object_Has_Expected_Bounds_Size_Of_Previous_Singles()
+		{
+			var combined = CombineCubes(CombinedName, 2, out GameObject[] gameObjects);
+
+			Bounds preCalculatedBounds = GetBounds(gameObjects);
+			Assert.That(CompareVector3(preCalculatedBounds.size, combined.meshRenderer.bounds.size));
+		}
+
+		[TestCase(10)]
+		[TestCase(100)]
+		[TestCase(1000)]
+		public void Combine_Cubes(int count)
+		{
+			var combined = CombineCubes(CombinedName, 2, out GameObject[] gameObjects);
+
+			Assert.That(combined.meshRenderer);
+			Assert.That(combined.meshFilter);
+		}
+
+		[Test]
+		public void Combine_Primitives_With_Custom_RendererInfo()
 		{
 			GameObject cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube); //24 vertices
 			GameObject cylinder1 = GameObject.CreatePrimitive(PrimitiveType.Cylinder); //88 vertices
@@ -49,18 +80,22 @@ namespace LeonDrace.Utility.Tests
 			string name = "NEW";
 			var combined = CombineHelper.Combine(gameObjects, rendererInfo, name);
 
-			Assert.That(combined.meshFilter.gameObject.name, Is.EqualTo(name));
-			Assert.That(combined.meshFilter.mesh.vertices.Length, Is.EqualTo(24 + 88));
-
 			var meshRenderer = cube1.GetComponent<MeshRenderer>();
-
 			Assert.That(rendererInfo.renderingLayerMask, Is.EqualTo(combined.meshRenderer.renderingLayerMask));
 			Assert.That(rendererInfo.shadowCastingMode, Is.EqualTo(combined.meshRenderer.shadowCastingMode));
 			Assert.That(rendererInfo.shareMaterial, Is.EqualTo(combined.meshRenderer.sharedMaterial));
+		}
 
-			Bounds preCalculatedBounds = GetBounds(gameObjects);
-			Assert.That(CompareVector3(preCalculatedBounds.center, combined.meshRenderer.bounds.center));
-			Assert.That(CompareVector3(preCalculatedBounds.size, combined.meshRenderer.bounds.size));
+		private CombineHelper.MeshInfo CombineCubes(string name, int amount, out GameObject[] gameObjects)
+		{
+			gameObjects = new GameObject[amount];
+			for (int i = 0; i < amount; i++)
+			{
+				gameObjects[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				gameObjects[i].transform.position = Vector3.one * i;
+			}
+
+			return CombineHelper.Combine(gameObjects, name);
 		}
 
 		private Bounds GetBounds(GameObject[] gameObjects)
