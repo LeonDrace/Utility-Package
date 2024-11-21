@@ -5,7 +5,7 @@ namespace LeonDrace.Utility.Singletons
 {
 	public class Singleton<T> : MonoBehaviour where T : Component
 	{
-		protected static T s_Instance;
+		private static T s_Instance;
 
 		public static bool HasInstance => s_Instance != null;
 		public static T TryGetInstance() => HasInstance ? s_Instance : null;
@@ -36,7 +36,7 @@ namespace LeonDrace.Utility.Singletons
 			InitializeSingleton();
 		}
 
-		protected virtual void InitializeSingleton()
+		private void InitializeSingleton()
 		{
 			if (!Application.isPlaying) return;
 
@@ -44,16 +44,12 @@ namespace LeonDrace.Utility.Singletons
 			{
 				s_Instance = this as T;
 			}
-			else
+			else if (s_Instance != this)
 			{
 #if UNITY_EDITOR
 				UnityEngine.Debug.Log($"Instance {typeof(T).Name} already exists, duplicate will be destroyed.");
 #endif
-				if (s_Instance != this)
-				{
-					Destroy(gameObject);
-				}
-
+				Destroy(gameObject);
 			}
 		}
 	}
