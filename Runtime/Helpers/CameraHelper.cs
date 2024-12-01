@@ -104,5 +104,28 @@ namespace LeonDrace.Utility.Helpers
 			float maxHeight = Screen.height + pixelOffset;
 			return new Vector4(minWidth, maxWidth, minHeight, maxHeight);
 		}
+		
+		/// <summary>
+		/// Get a random world position at the cameras border.
+		/// </summary>
+		/// <param name="camera"></param>
+		/// <param name="widthOffset"></param>
+		/// <param name="heightOffset"></param>
+		/// <returns></returns>
+		public static Vector3 GetRandomScreenBorderPointAsWorldPosition(Camera camera, float widthOffset = 0, float heightOffset = 0)
+		{
+			int width = Screen.width;
+			int height = Screen.height;
+			int randomBorder = UnityEngine.Random.Range(0, 4);
+
+			return randomBorder switch
+			{
+				0 => camera.ScreenToWorldPoint(new Vector3(Random.Range(-widthOffset, width + widthOffset), -heightOffset, 0)),
+				1 => camera.ScreenToWorldPoint(new Vector3(Random.Range(-widthOffset, width + widthOffset), height + heightOffset, 0)),
+				2 => camera.ScreenToWorldPoint(new Vector3(-widthOffset, Random.Range(-heightOffset, height + heightOffset), 0)),
+				3 => camera.ScreenToWorldPoint(new Vector3(width + heightOffset, Random.Range(heightOffset, height + heightOffset), 0)),
+				_ => Vector3.zero
+			};
+		}
 	}
 }
