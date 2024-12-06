@@ -20,6 +20,12 @@ namespace LeonDrace.Utility.InterfaceSerializer
             var args = GetArguments(fieldInfo);
 
             EditorGUI.BeginProperty(position, label, property);
+            
+            if (Selection.gameObjects.Length > 1)
+            {
+                EditorGUI.LabelField(position,"Multi Selection Not Supported!");
+                return;
+            }
 
             var assignedObject = EditorGUI.ObjectField(position, label, underlyingProperty.objectReferenceValue,
                 args.ObjectType, true);
