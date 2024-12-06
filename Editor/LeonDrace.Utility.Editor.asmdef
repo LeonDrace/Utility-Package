@@ -1,0 +1,16 @@
+{
+    "name": "LeonDrace.Utility.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9621f24002ec61d4284f907be01ac997"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
