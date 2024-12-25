@@ -2,7 +2,7 @@
   "name": "com.leondrace.utility",
   "displayName": "Utility",
   "description": "A collection of utilities: Extensions, Assembly, Singletons and Timers",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "keywords": [
     "Extensions",
     "Utility"
